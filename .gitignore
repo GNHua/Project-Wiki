@@ -4,3 +4,4 @@ __pycache__/
 env/
 caddy.exe
 PW_run.py
+config.py
