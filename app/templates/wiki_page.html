@@ -1,0 +1,122 @@
+{% extends 'layout.html' %}
+
+{% block pageheader %}
+<span class="navbar-brand">{{ page.title }}</span>
+{%endblock%}
+
+{% block edit_upload %}
+{% if current_user.can(group, Permission.WRITE) %}
+<li class="nav-item">
+  <a class="nav-link" href="{{ url_for('main.wiki_page_edit', group=group, page_id=page.id) }}">Edit<span class="sr-only">(current)</span></a>
+</li>
+<li class="nav-item">
+  <a class="nav-link" href="javascript:uploadfile('{{ group }}','{{ page.id }}',600,800)">Upload</a>
+</li>
+{% endif %}
+{% endblock %}
+
+{% block tableofcontents %}
+<div id="toc-div">
+    <strong>Table of contents</strong>
+    {{ page.toc|safe }}
+</div>
+<script>
+    var d = document.getElementById('toc-div');
+    var uls = d.getElementsByTagName('ul');
+    if (uls.length > 0) {
+        uls[0].className = "nav nav-pills flex-column";
+        
+        var lis = d.getElementsByTagName('li');
+        var links = d.getElementsByTagName('a');
+        for (i = 0; i < lis.length; i++) {
+            lis[i].className = 'nav-item';
+        }
+    }
+</script>
+{% endblock %}
+
+{% block content %}
+    {{ page.html|safe }}
+    <div align="right">
+        <i><small>
+            modified by 
+            {% if page.modified_by %}
+            {{ page.modified_by }}
+            {% else %}
+            system
+            {% endif %} 
+            on {{ page.modified_on.strftime("%Y-%m-%d %H:%M:%S") }}
+        </small></i>
+    </div>
+    <hr>
+
+{% if current_user.can(group, Permission.WRITE) %}
+<div class="row">
+    <div class="col-md-6" id="wiki-comment-box">
+            {% if form.textArea.errors %}
+                {% for error in form.textArea.errors %}
+                    <div class="alert alert-danger alert-dismissable">
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                        <strong>{{ error }}</strong>
+                    </div>
+                {% endfor %}
+            {% endif %}
+            
+        <div class="widget-area no-padding blank">
+            <form method="POST">
+                {{ form.hidden_tag() }}
+                {{ form.textArea(placeholder='{} says:'.format(current_user.name)) }}
+                <span style="margin:0 10px;color:#888;">Enter markdown</span>
+                {{ form.submit(class="btn btn-primary btn-sm float-right", value="Submit") }}
+            </form>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="wiki-comment">
+            <ul class="comments">
+                {% for comment in page.comments %}
+                    <li class="clearfix">
+                      <div class="post-comments" id="{{ comment.id }}">
+                          <p class="meta">
+                              {{ comment.timestamp.strftime("%Y-%m-%d %H:%M:%S") }} &nbsp; {{ comment.author }} says :
+                              {% if current_user.is_admin(group) or comment.author == current_user.name %}
+                              <small class="float-right">
+                                  <a href="{{ url_for('admin.wiki_group_delete_comment', group=group, page_id=page.id, comment_id=comment.id) }}" class="close">&times;</a>
+                              </small>
+                          </p>
+                          {% endif %}
+                          {{ comment.html|safe }}
+                      </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+<br><br><br><br><br><br><br><br>
+
+<script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script>window.MathJax || document.write('<script src="/static/js/MathJax-2.7.0.js"><\/script>')</script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/emojify.js') }}"></script>
+<script type="text/javascript">
+    document.getElementById("textArea").value = "";
+    function uploadfile(group,pageid,width,height) {
+       window.open("/"+group+"/"+pageid+"/upload", "Attach", "width="+width+",height="+height+", menubar=no, scrollbars=yes");
+    }
+    
+    emojify.setConfig({ img_dir: '/static/emoji' });
+    emojify.run(document.getElementById('markdown-content'));
+</script>
+{% endblock %}

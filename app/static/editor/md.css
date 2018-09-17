@@ -1,0 +1,100 @@
+#out  {
+  font-size: 14px;
+  line-height: 1.5em;
+}
+
+a{ color: #0645ad; text-decoration:none;}
+a:visited{ color: #0b0080; }
+a:hover{ color: #06e; }
+a:active{ color:#faa700; }
+a:focus{ outline: thin dotted; }
+a:hover, a:active{ outline: 0; }
+
+p{margin:1em 0;}
+
+img{max-width:100%;}
+
+h1,h2,h3,h4,h5,h6{font-weight:bold;color:#111;line-height:1em;margin:1rem 0 1rem;}
+h1{ font-size:2em; }
+h2{ font-size:1.6em; }
+h3{ font-size:1.2em; }
+h4, h5, h6{ font-size:1em; }
+
+blockquote{color:#666666;margin:0;padding-left: 3em;border-left: 0.5em #EEE solid;}
+hr { display: block; height: 1px; border: 0; border-top: 1px solid #aaa; margin: 0; padding: 0; }
+
+pre, code{
+  color: #000;
+  font-family:Consolas, "Liberation Mono", Menlo, Courier, monospace;
+  font-size: 0.94em; /* 0.94 = 0.88 + (1.00 - 0.88) / 2 */
+  border-radius:3px;
+  background-color: #F8F8F8;
+  border: 1px solid #CCC;
+}
+pre { white-space: pre; white-space: pre-wrap; word-wrap: break-word; padding: 5px;}
+pre code { border: 0px !important; background: transparent !important; line-height: 1.3em; }
+sub, sup { font-size: 75%; line-height: 0; position: relative; vertical-align: baseline; }
+sup { top: -0.5em; }
+sub { bottom: -0.25em; }
+ul, ol { margin: 0 0; padding: 0 0 0 2em; }
+li p:last-child { margin:0 }
+dd { margin: 0 0 0 2em; }
+img { border: 0; -ms-interpolation-mode: bicubic; vertical-align: middle; }
+table { border-collapse: collapse; border-spacing: 0; }
+td, th { vertical-align: top; padding: 4px 10px; border: 1px solid #bbb;}
+tr:nth-child(even) td, tr:nth-child(even) th { background: #eee; }
+figure {text-align: center;}
+
+.menu {
+  position:fixed;
+  z-index:1000;
+}
+
+.bars {
+	background-color: #444;
+	padding:8px 10px;
+  position:fixed;
+}
+
+.bar {
+	width: 20px;
+	height: 2px;
+	background-color: white;
+	margin: 2px 0;
+	border-radius:3px;
+}
+
+.menu:hover .bars{
+	background-color: #666;
+	box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.5);
+}
+
+.menu:hover .menu-content {
+  display: block;
+}
+
+.menu-content {
+	display: none;
+	position: absolute;
+	left:40px;
+  width:150px;
+	background-color: #444;
+	z-index:1000;
+	box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.5);
+}
+
+.menu-content input, .menu-content button {
+	color: white;
+	background-color: #444;
+	width:100%;
+	padding: 12px 16px;
+	display: block;
+	border: none;
+	cursor: pointer;
+}
+
+.menu-content input:hover, .menu-content button:hover, .menu-content button:focus {
+	background-color: #666;
+}
+
+.show {display:block;}

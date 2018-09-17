@@ -1,0 +1,31 @@
+{% extends 'admin/layout.html' %}
+
+{% block pageheader %}
+<span class="navbar-brand">All Users</span>
+{% endblock %}
+
+{% block content %}
+<table align="center" class="table table-sm table-left">
+    <thead>
+        <tr>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Permissions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for u in all_users %}
+        <tr>
+            <td>{{ u.name }}</td>
+            <td>{{ u.email }}</td>
+            <td>
+                {% for key in u.permissions.keys() %}
+                    {{ key }}: {{ u.get_role(key) }}<br>
+                {% endfor %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<br><br><br><br><br><br><br><br>
+{% endblock %}

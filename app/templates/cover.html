@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="icon" href="{{ url_for('static', filename='icons/favicon.ico') }}">
+
+        <title>Project Wiki</title>
+        
+        <!-- Bootstrap core CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+
+        <!-- Custom styles for this template -->
+        <link href="{{ url_for('static', filename='bootstrap4/cover.css') }}" rel="stylesheet">
+    </head>
+
+    <body>
+        <div class="site-wrapper">
+            <div class="site-wrapper-inner">
+                <div class="cover-container">
+                    <div class="masthead clearfix">
+                        <div class="inner">
+                            <h3 class="masthead-brand">Project Wiki</h3>
+                            <nav class="nav nav-masthead">
+                                <div class="dropdown">
+                                    <a class="nav-link dropdown-toggle active" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Groups</a>
+                                    <div class="dropdown-menu" aria-labelledby="dropdown01">
+                                        {% for group in all_groups %}
+                                        <a class="dropdown-item" href="{{ url_for('auth.wiki_group_login', group=group.name_no_whitespace) }}">{{ group.name_with_whitespace }}</a>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </nav>
+                        </div>
+                    </div>
+
+                    <div class="inner cover">
+                        <h1 class="cover-heading">Welcome</h1>
+                        <p class="lead">The world is our campus.</p>
+                        <p class="lead"><a href="#" class="btn btn-lg btn-secondary">Learn more</a></p>
+                    </div>
+
+                    <div class="mastfoot">
+                        <div class="inner">
+                            <p>
+                            {% if current_user.is_super_admin() %}
+                            <a href="{{ url_for('auth.wiki_super_logout') }}">Log out</a> as <a href="{{ url_for('admin.wiki_super_admin') }}">administrator</a>.
+                            {% else %}
+                            <a href="{{ url_for('auth.wiki_super_login') }}">Log in</a> as administrator.
+                            {% endif %}
+                            <br>
+                            <a href="https://github.com/GNHua/Project-Wiki">Project Wiki</a>, created by <a href="https://github.com/GNHua">Hua</a>.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bootstrap core JavaScript
+        ================================================== -->
+        <!-- Placed at the end of the document so the pages load faster -->
+        <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+        <script>window.jQuery || document.write('<script src="/static/bootstrap4/jquery-3.1.1.min.js"><\/script>')</script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+        <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+        <script src="{{ url_for('static', filename='bootstrap4/ie10-viewport-bug-workaround.js') }}"></script>
+    </body>
+</html>

@@ -1,0 +1,143 @@
+#markdown-content  {
+  font-size: 14px;
+  line-height: 1.5em;
+}
+
+/*a:not(.page-link){ color: #0078ff; }*/
+.sidebar a:visited, #markdown-content a:visited:not(.btn){ color: #993399; }
+.sidebar a:hover:not(.btn), #markdown-content a:hover:not(.btn){ color: #06e; }
+.sidebar a:active, #markdown-content a:active{ color:#faa700; }
+.sidebar a:focus, #markdown-content a:focus{ outline: thin dotted; }
+.sidebar a:hover, .sidebar a:active, #markdown-content a:hover, #markdown-content a:active{ outline: 0; }
+
+#markdown-content p{margin:1em 0;}
+
+#markdown-content img{max-width:100%;}
+
+#markdown-content h1, #markdown-content h2, #markdown-content h3, #markdown-content h4, #markdown-content h5, #markdown-content h6{font-weight:bold;color:#111;line-height:1em;margin:1rem 0;}
+#markdown-content h1{ font-size:2em; }
+#markdown-content h2{ font-size:1.6em; }
+#markdown-content h3{ font-size:1.2em; }
+#markdown-content h4, #markdown-content h5, #markdown-content h6{ font-size:1em; }
+
+
+#markdown-content blockquote{color:#666666;margin:0;padding-left: 3em;border-left: 0.5em #EEE solid;}
+#markdown-content hr { display: block; height: 1px; border: 0; border-top: 1px solid #aaa; margin: 0; padding: 0; }
+
+#markdown-content pre, #markdown-content code{
+  color: #000;
+  font-family:Consolas, "Liberation Mono", Menlo, Courier, monospace;
+  font-size: 0.94em; /* 0.94 = 0.88 + (1.00 - 0.88) / 2 */
+  border-radius:3px;
+  background-color: #F8F8F8;
+  border: 1px solid #CCC;
+}
+#markdown-content pre { white-space: pre; white-space: pre-wrap; word-wrap: break-word; padding: 5px; margin-top: 1rem;}
+#markdown-content pre code { border: 0px !important; background: transparent !important; line-height: 1.3em; }
+#markdown-content sub, #markdown-content sup { font-size: 75%; line-height: 0; position: relative; vertical-align: baseline; }
+#markdown-content sup { top: -0.5em; }
+#markdown-content sub { bottom: -0.25em; }
+#markdown-content ul:not(.comments), #markdown-content ol { margin: 0 0; padding: 0 0 0 2em; }
+#markdown-content li p:last-child { margin:0 }
+#markdown-content dd { margin: 0 0 0 2em; }
+#markdown-content img { border: 0; -ms-interpolation-mode: bicubic; }
+.table:not(.table-left) th {
+   text-align: center;   
+}
+#markdown-content .close { line-height:1rem; }
+#markdown-content nav ul { padding: 0; }
+#markdown-content figure {text-align: center;}
+
+.emoji { vertical-align: top; }
+.btn { cursor: pointer;; }
+
+:target:before {
+  content:"";
+  display:block;
+  height:60px; /* fixed header height*/
+  margin:-60px 0 0; /* negative fixed header height */
+}
+
+.widget-area {
+  background: #e4e4e4;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  -o-border-radius: 4px;
+  border-radius: 4px;
+  -webkit-box-shadow: 0 0 16px rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: 0 0 16px rgba(0, 0, 0, 0.1);
+  -ms-box-shadow: 0 0 16px rgba(0, 0, 0, 0.1);
+  -o-box-shadow: 0 0 16px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 16px rgba(0, 0, 0, 0.3);
+  float: left;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  position: relative;
+  width: 100%;
+}
+
+.widget-area form {
+  float: left;
+  width: 100%;
+}
+
+.widget-area form textarea {
+  -webkit-border-radius: 4px 4px 0 0;
+  -moz-border-radius: 4px 4px 0 0;
+  -ms-border-radius: 4px 4px 0 0;
+  -o-border-radius: 4px 4px 0 0;
+  border-radius: 4px 4px 0 0;
+  font-family: inherit;
+  line-height: 1em;
+  float: left;
+  height: 105px;
+  padding: 10px;
+  width: 100%;
+  margin-bottom: 3px;
+  border: 1px solid #F2F2F2;
+}
+
+.widget-area form .btn {
+  margin-bottom: 5px;
+}
+
+.wiki-comment::before,
+.wiki-comment::after,
+.wiki-comment-form::before,
+.wiki-comment-form::after{
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.wiki-comment ul{
+  list-style-type: none;
+  padding: 0;
+}
+
+.wiki-comment .post-comments{
+  border: 1px solid #ddd;
+  margin-bottom: 5px;
+  padding: 0 20px 10px;
+  position: relative;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -o-border-radius: 4px;
+  border-radius: 4px;
+  position: relative;
+}
+
+.wiki-comment .meta {
+  font-size: 13px;
+  padding-bottom: 8px;
+  margin-bottom: 10px !important;
+  border-bottom: 1px solid #eee;
+}
+
+.wiki-comment ul.comments ul{
+  list-style-type: none;
+  padding: 0;
+  margin-left: 85px;
+}
+

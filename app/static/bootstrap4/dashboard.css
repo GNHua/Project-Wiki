@@ -1,0 +1,45 @@
+/*
+ * Base structure
+ */
+
+/* Move down content because we have a fixed navbar that is 3.5rem tall */
+body {
+  padding-top: 3.5rem;
+  font-size: 14px;
+}
+
+/*
+ * Sidebar
+ */
+
+.sidebar {
+  position: fixed;
+  top: 51px;
+  bottom: 0;
+  left: 0;
+  z-index: 1000;
+  padding: 20px;
+  overflow-x: hidden;
+  overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+  border-right: 1px solid #eee;
+}
+
+.sidebar > ul {
+	margin-bottom:10px;
+}
+
+.sidebar ul ul {
+	padding:0 20px;
+}
+
+.sidebar li {
+	line-height:1em;
+}
+
+.sidebar li a {
+	font-size:0.95em;
+	line-height:1em;
+	margin-top:2px;
+	margin-bottm:0;
+	padding:0;
+}

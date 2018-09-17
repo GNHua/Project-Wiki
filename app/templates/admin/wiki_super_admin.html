@@ -1,0 +1,124 @@
+{% extends 'admin/layout.html' %}
+
+{% block pageheader %}
+<span class="navbar-brand">Super Admin</span>
+{% endblock %}
+
+{% block content %}
+
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+        {% for message in messages %}
+        {% if message == 'New group added' or message == 'Server reload completed' or message == 'Backup completed' %}
+        <div class="alert alert-success alert-dismissable">
+        {% else %}
+        <div class="alert alert-danger alert-dismissable">
+        {% endif %}
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <strong>{{ message }}</strong>
+        </div>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+
+<div class="row justify-content-between">
+    <div class="col-4">
+        <h2>Current groups</h2>
+    </div>
+    <div class="col-2">
+        <button type="button" style="margin:10px 0" class="btn btn-success btn-block" data-toggle="collapse" data-target="#add-group" aria-expanded="false" aria-controls="add-group">
+            + Add New Group
+        </button>
+    </div>
+</div>
+
+<div class="collapse" id="add-group" style="margin-bottom: 14px">
+    <div class="card card-body">
+        <form class="form-add-group" method="POST">
+            {{ form.hidden_tag() }}
+
+            {% if form.groupname.errors or form.username.errors or form.email.errors or form.password.errors %}
+                {% for error in (form.groupname.errors + form.username.errors + form.email.errors + form.password.errors) %}
+                    <div class="alert alert-danger alert-dismissable">
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                        <strong>{{ error }}</strong>
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            <div style="max-width:300px;">
+                <div class="form-group">
+                {{ form.groupname(class="form-control", placeholder="Group Name") }}
+                </div>
+                <div class="form-group">
+                {{ form.username(class="form-control", placeholder="Group Admin") }}
+                </div>
+                <div class="form-group">
+                {{ form.email(class="form-control", placeholder="Email") }}
+                </div>
+                <div class="form-group">
+                {{ form.password(class="form-control", placeholder="Password") }}
+                </div>
+                <div class="form-group" style="margin-bottom: 0">
+                {{ form.add(class="btn btn-primary col-12") }}
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<table id="current-groups" class="table table-left">
+    <thead>
+        <tr>
+            <th>Group</th>
+            <th>Activated</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for g in all_groups %}
+        <tr>
+            {% if g.active %}
+                <td><a href="{{ url_for('main.wiki_group_home', group=g.name_no_whitespace) }}">{{ g.name_with_whitespace }}</a></td>
+                <td>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="{{ g.name_no_whitespace }}-checkbox" onclick="location.href='{{ url_for('admin.wiki_activate_group', group=g.name_no_whitespace) }}'" checked>
+                        <span class="slider round"></span>
+                    </label>
+                </td>
+            {% else %}
+                <td>{{ g.name_with_whitespace }}</td>
+                <td>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="{{ g.name_no_whitespace }}-checkbox" onclick="location.href='{{ url_for('admin.wiki_activate_group', group=g.name_no_whitespace) }}'">
+                        <span class="slider round"></span>
+                    </label>
+                </td>
+            {% endif %}
+            <td><a href="{{ url_for('admin.wiki_delete_group', group=g.name_no_whitespace) }}" class="btn btn-danger delete-db " role="button" aria-pressed="true">delete</a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<hr><br>
+
+<a href="{{ url_for('admin.wiki_server_reload') }}" class="btn btn-primary" role="button" aria-pressed="true">Server Reload</a>
+<a href="{{ url_for('admin.wiki_backup') }}" class="btn btn-primary" role="button" aria-pressed="true">Back Up</a>
+<a href="{{ url_for('admin.wiki_show_login_record') }}" class="btn btn-primary" role="button" aria-pressed="true">Login Record</a>
+<a href="{{ url_for('admin.wiki_recent_user_activities') }}" class="btn btn-primary" role="button" aria-pressed="true">Recent User Activities</a>
+<a href="{{ url_for('admin.wiki_all_users') }}" class="btn btn-primary" role="button" aria-pressed="true">All Users</a>
+
+<p>The Backup operation utilizes <a href="https://docs.mongodb.com/manual/reference/program/mongodump/">mongodump</a> to export all data to bson (binary json) files.</p>
+
+
+<script type="text/javascript">
+    var elems = document.getElementsByClassName('delete-db');
+    var confirmIt = function (e) {
+        if (!confirm('Are you sure to delete this group?')) e.preventDefault();
+    };
+    for (var i = 0, l = elems.length; i < l; i++) {
+        elems[i].addEventListener('click', confirmIt, false);
+    }
+</script>
+{% endblock %}

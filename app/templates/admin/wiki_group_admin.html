@@ -1,0 +1,93 @@
+{% extends 'admin/layout.html' %}
+
+{% block pageheader %}
+<span class="navbar-brand">Admin</span>
+{% endblock %}
+
+{% block content %}
+
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+        {% for message in messages %}
+        {% if message == 'New user added' %}
+        <div class="alert alert-success alert-dismissable">
+        {% else %}
+        <div class="alert alert-danger alert-dismissable">
+        {% endif %}
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <strong>{{ message }}</strong>
+        </div>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+
+{% if form.username.errors or form.email.errors or form.password.errors %}
+    {% for error in (form.username.errors + form.email.errors + form.password.errors) %}
+        <div class="alert alert-danger alert-dismissable">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <strong>{{ error }}</strong>
+        </div>
+    {% endfor %}
+{% endif %}
+
+<div class="row justify-content-between">
+    <div class="col-4">
+        <h2>Current accounts</h2>
+    </div>
+    <div class="col-2">
+        <button type="button" style="margin:10px 0" class="btn btn-success btn-block" data-toggle="collapse" data-target="#add-account" aria-expanded="false" aria-controls="add-account">
+            + Add New Account
+        </button>
+    </div>
+</div>
+
+<div class="collapse" id="add-account" style="margin-bottom: 14px">
+    <div class="card card-body">
+        <form class="form-register" method="POST">
+            {{ form.hidden_tag() }}
+            <div style="max-width:300px;">  
+                <div class="form-group">
+                {{ form.username(class="form-control", placeholder="Username") }}
+                </div>
+                <div class="form-group">
+                {{ form.email(class="form-control", placeholder="Email") }}
+                </div>
+                <div class="form-group">
+                {{ form.password(class="form-control", placeholder="Password") }}
+                </div>
+                <div class="form-group">
+                {{ form.access(class="form-control custom-select") }}
+                </div>
+                {{ form.add(class="btn btn-primary col-12", style="margin-bottom: 0") }}
+            </div>
+        </form>
+    </div>
+</div>
+
+<table class="table table-left">
+    <thead>
+        <tr>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Access</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for user in all_users %}
+        <tr>
+            <td>{{ user.name }}</td>
+            <td>{{ user.email }}</td>
+            <td>{{ user.get_role(group) }}</td>
+            <td><a href="{{ url_for('admin.wiki_group_manage_user', group=group, user_id=user.id) }}" class="btn btn-sm btn-warning " role="button" aria-pressed="true">edit</a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<hr><br>
+
+<a href="{{ url_for('admin.wiki_show_all_files', group=group) }}" class="btn btn-sm btn-primary " role="button" aria-pressed="true">Uploaded Files</a>
+<a href="{{ url_for('admin.wiki_show_all_wikipages', group=group) }}" class="btn btn-sm btn-primary " role="button" aria-pressed="true">All Wiki Pages</a>
+
+{% endblock %}

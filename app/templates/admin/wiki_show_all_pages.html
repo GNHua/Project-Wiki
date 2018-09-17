@@ -1,0 +1,153 @@
+{% extends 'layout.html' %}
+
+{% block pageheader %}
+<span class="navbar-brand">All Pages</span>
+{% endblock %}
+
+{% block content %}
+
+<div class="row">
+  <div class="col-lg-4">
+    <form method="Post">
+      {{ search_form.hidden_tag() }}
+      <div class="input-group">
+        {% set attribs = {'placeholder':'Search for...', 'aria-label':'Search for...'}  %}
+        {{ search_form.search(class="form-control", **attribs) }}
+        <span class="input-group-btn">
+          {{ search_form.submit(class="btn btn-primary", value="Go!") }}
+        </span>
+      </div>
+    </form>
+  </div>
+</div>
+
+<br>
+
+{% if search_form.search.data %}
+<h3>Search Results for <i>"{{ search_form.search.data }}"</i></h3>
+{% endif %}
+
+<nav aria-label="Wiki Pages">
+    <ul class="pagination justify-content-center">
+        
+        {# Previous page #}
+        {% if results.has_prev %}
+        <li class="page-item">
+        {% else %}
+        <li class="page-item disabled">
+        {% endif %}
+            <a class="page-link" href="{{ url_for('admin.wiki_show_all_wikipages', group=group, search=search_form.search.data, page=results.prev_num) }}" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+                <span class="sr-only">Previous</span>
+            </a>
+        </li>
+        
+        {% if start_page > 3 %}
+        <li class="page-item">
+            <a class="page-link" href="{{ url_for('admin.wiki_show_all_wikipages', group=group, search=search_form.search.data, page=1) }}">
+                1
+            </a>
+        </li>
+        <li class="page-item">
+            <a class="page-link" href="{{ url_for('admin.wiki_show_all_wikipages', group=group, search=search_form.search.data, page=2) }}">
+                2
+            </a>
+        </li>
+        <li class="page-item disabled">
+            <a class="page-link" href="#">...</a>
+        </li>
+        {% endif %}
+        
+        {% for i in range(start_page, end_page+1) %}
+        {% if i == results.page %}
+        <li class="page-item active">
+        {% else %}
+        <li class="page-item">
+        {% endif %}
+            <a class="page-link" href="{{ url_for('admin.wiki_show_all_wikipages', group=group, search=search_form.search.data, page=i) }}">{{ i }}</a>
+        </li>
+        {% endfor %}
+        
+        {% if end_page < total_pages-3 %}
+        <li class="page-item disabled">
+            <a class="page-link" href="#">...</a>
+        </li>
+        <li class="page-item">
+            <a class="page-link" href="{{ url_for('admin.wiki_show_all_wikipages', group=group, search=search_form.search.data, page=total_pages-1) }}">
+                {{ total_pages-1 }}
+            </a>
+        </li>
+        <li class="page-item">
+            <a class="page-link" href="{{ url_for('admin.wiki_show_all_wikipages', group=group, search=search_form.search.data, page=total_pages) }}">
+                {{ total_pages }}
+            </a>
+        </li>
+        {% endif %}
+        
+        {# Next page #}
+        {% if results.has_next %}
+        <li class="page-item">
+        {% else %}
+        <li class="page-item disabled">
+        {% endif %}
+            <a class="page-link" href="{{ url_for('admin.wiki_show_all_wikipages', group=group, search=search_form.search.data, page=results.next_num) }}" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+                <span class="sr-only">Next</span>
+            </a>
+        </li>
+        
+    </ul>
+</nav>
+
+<form action="{{ url_for('admin.wiki_group_delete_wikipage', group=group) }}" method="POST" id="delete-form" style="display:none;">
+    {{ delete_form.hidden_tag() }}
+    {{ delete_form.page_id(id="page_id") }}
+    {{ delete_form.submit }}
+</form>
+
+<style>.delete-wikipage {cursor:pointer;}</style>
+<div align="center">
+    <table align="center">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Modified by</th>
+                <th>Modified on</th>
+                <th>Current version</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for wp in results.items %}
+            <tr id="row-{{ wp.id }}">
+                <td><a class="wiki-page" href="{{ url_for('main.wiki_page', group=group, page_id=wp.id) }}">{{ wp.title }}</a></td>
+                <td align="center">{{ wp.modified_by }}</td>
+                <td align="center">{{ wp.modified_on.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                <td align="center">{{ wp.current_version }}</td>
+                <td align="center"><a class="delete-wikipage" id="delete-wikipage{{ wp.id }}" style="color:red;">delete</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+<br><br><br><br><br><br><br><br>
+{% endblock %}
+
+{% block scriptblock %}
+<script type="text/javascript">
+    $('.delete-wikipage').on("click", function(e) {
+        if (confirm('Are you sure to delete wiki page?\nWiki page deletion may take a while.')) {
+            var page_id = $(this).attr('id').replace('delete-wikipage', '');
+            $('#page_id').val(page_id);
+            $.ajax({
+                url:'{{ url_for('admin.wiki_group_delete_wikipage', group=group) }}',
+                type:'POST',
+                data:$('#delete-form').serialize(),
+                success:function(){
+                    $('#row-' + page_id).remove();
+                }
+            });
+        }
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,19 @@
+.upload-dropbox {
+  height: 200px;
+  border-width: 2px;
+  margin-bottom: 20px;
+  color: #ccc;
+  border-style: dashed;
+  border-color: #ccc;
+  line-height: 200px;
+  text-align: center
+}
+
+.upload-dropbox.active {
+  color: #222;
+  border-color: #222;
+}
+
+.btn {
+	cursor: pointer;
+}

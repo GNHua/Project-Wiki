@@ -1,0 +1,41 @@
+{% extends 'layout.html' %}
+
+{% block pageheader %}
+<span class="navbar-brand">Edit account - {{ current_user.name }}</span>
+{% endblock %}
+
+{% block content %}
+<form class="form-existing-user" method="POST">
+    {{ form.hidden_tag() }}
+
+    {% if form.email.errors%}
+        {% for error in form.email.errors %}
+            <div class="alert alert-danger alert-dismissable">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>{{ error }}</strong>
+            </div>
+        {% endfor %}
+    {% endif %}
+    
+    <div style="max-width:300px;">
+        <div class="form-group">
+        {{ form.email(class="form-control", placeholder="Email") }}
+        </div>
+        <div class="form-group">
+        {{ form.password(class="form-control", placeholder="Password") }}
+        </div>
+        <div class="form-group">
+        {{ form.access(class="form-control custom-select") }}
+        </div>
+        <div class="form-group">
+        {{ form.add(class="btn btn-primary col-12", value="Change") }}
+        </div>
+        {% if user_id != current_user.id|string() %}
+        <div class="form-group">
+            {{ form.remove(class="btn btn-danger col-12") }}
+        </div>
+        {% endif %}
+    </div>
+</form>
+<p><small><i>If Password field is empty, then it won't be changed.</i></small></p>
+{% endblock %}

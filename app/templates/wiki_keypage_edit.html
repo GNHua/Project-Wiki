@@ -1,0 +1,19 @@
+{% extends 'layout.html' %}
+
+{% block pageheader %}
+<span class="navbar-brand">Edit Key Pages</span>
+{% endblock %}
+
+{% block content %}
+<small>Add key page titles, one title per line. Non-existing page will be ignored.</small>
+    <form method="POST">
+        {{ form.hidden_tag() }}
+
+    <div class="form-group">
+        {{ form.textArea(class="form-control", rows="15") }}
+    </div>
+
+        {{ form.submit(class="btn btn-primary") }}
+        <a href="{{ url_for('main.wiki_group_home', group=group) }}" class="btn btn-secondary" role="button" aria-pressed="true">Cancel</a>
+    </form>
+{% endblock %}

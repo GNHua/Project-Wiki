@@ -1,0 +1,18 @@
+{% extends 'layout.html' %}
+
+{% block pageheader %}
+<span class="navbar-brand">Recent Changes</span>
+{% endblock %}
+
+{% block content %}
+<table>
+{% for page in changed_pages %}
+    <tr>
+        <td>{{ page.modified_on.strftime("%Y-%m-%d %H:%M:%S") }}</td>
+        <td>{{ page.modified_by }}</td>
+        <td><a href="{{ url_for('main.wiki_page', group=group, page_id=page.id) }}">{{ page.title }}</a></td>
+    </tr>
+{% endfor %}
+</table>
+
+{% endblock %}

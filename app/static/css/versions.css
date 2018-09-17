@@ -1,0 +1,23 @@
+.form-recover-version {
+	position:relative;
+	display:inline;
+	left:100px;
+}
+
+#diff-all {width:100%;border:none;}
+#diff-all table {width:100%;}
+table.diff {font-family:Courier;border:1px solid black;}
+.diff_header {background-color:#e0e0e0}
+td.diff_header {text-align:right;vertical-align:top;}
+.diff_next {background-color:#c0c0c0}
+.diff_add {background-color:#aaffaa}
+.diff_chg {background-color:#ffff77}
+.diff_sub {background-color:#ffaaaa}
+tbody tr td:nth-child(3), tbody tr td:nth-child(6) {width:50%}
+
+.version {position:relative;font-family:Courier;width:49%;}
+.version-prev {float:left;}
+.version-next {float:right;}
+.arrow-box {font-size:16px;text-decoration:none;}
+.arrow-box-left {float:left;}
+.arrow-box-right {float:right;}
