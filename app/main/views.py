@@ -175,8 +175,8 @@ def wiki_page_edit(group, page_id):
                     except (AttributeError, AssertionError):
                         pass
                 
-                _WikiPage.objects(id=page.id).update(add_to_set__refs=wiki_md.wiki_refs,
-                                                     add_to_set__files=wiki_md.wiki_files)
+                _WikiPage.objects(id=page.id).update(set__refs=wiki_md.wiki_refs,
+                                                     set__files=wiki_md.wiki_files)
                 return redirect(url_for('.wiki_page', group=group, page_id=page_id))
             else:
                 flash('Other changes have been made to this '
